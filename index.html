@@ -2,8 +2,19 @@
 <html>
     <head>
         <title>Copy External JSON Content</title>
+        <style>
+        body { font-family: Arial, sans-serif; }
+        ul { list-style-type: none; }
+        li { margin: 5px 0; }
+    </style>
     </head>
     <body>
+        <input type="file" id="fileInput" webkitdirectory multiple />
+        <button id="listFiles">List Files</button>
+
+        <ul id="fileList"></ul>
+
+        
         <button wb-data="copy-button">Copy JSON Content</button>
 
         <script>
@@ -28,6 +39,23 @@
                 document.execCommand("copy");
                 document.removeEventListener("copy", copyJSON);
             });
+
+
+             document.getElementById('listFiles').addEventListener('click', function() {
+        const input = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = ''; // Clear previous list
+
+        if (input.files.length > 0) {
+            for (let i = 0; i < input.files.length; i++) {
+                const li = document.createElement('li');
+                li.textContent = input.files[i].webkitRelativePath; // Display relative path
+                fileList.appendChild(li);
+            }
+        } else {
+            fileList.innerHTML = '<li>No files selected.</li>';
+        }
+    });
         </script>
     </body>
 </html>
