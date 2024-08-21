@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Copy External JSON Content</title>
+    </head>
+    <body>
+        <button wb-data="copy-button">Copy JSON Content</button>
+
+        <script>
+            const copyButton = document.querySelector("[wb-data=copy-button]");
+
+            let component;
+
+            fetch("./Relume Components/05 Feature/layout63.json")
+            .then(response => response.json())
+            .then(componentAttributes => {
+                component = JSON.stringify(componentAttributes)
+            });
+
+            const copyJSON = (event) => {
+                event.preventDefault();
+                event.clipboardData.setData("application/json", component);
+                //console.log(component);
+            };
+
+            copyButton.addEventListener("click", (event) => {
+                document.addEventListener("copy", copyJSON);
+                document.execCommand("copy");
+                document.removeEventListener("copy", copyJSON);
+            });
+        </script>
+    </body>
+</html>
